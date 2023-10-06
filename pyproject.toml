@@ -7,6 +7,7 @@ serve = 'uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload'
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest>=7.4.2",
+    "httpx>=0.25.0",
 ]
 [project]
 name = ""
