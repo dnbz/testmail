@@ -24,16 +24,28 @@ class SmtpEmailSender:
         msg['From'] = self.sender_email
         msg['To'] = to
 
-        # Send the email
-        try:
-            with smtplib.SMTP(self.server, self.port) as server:
-                # Upgrade the connection to a secure encrypted SSL/TLS connection
-                if self.use_starttls:
-                    server.starttls()
+        # nested try-except for logging purposes
+        with smtplib.SMTP(self.server, self.port) as server:
+            # Upgrade the connection to a secure encrypted SSL/TLS connection
+            if self.use_starttls:
+                server.starttls()
+                logging.debug("Upgraded connection to STARTTLS")
 
+            try:
                 server.login(self.user, self.password)
-                logging.debug(f"Logged in to server {self.server}")
-                server.send_message(msg)
+            except smtplib.SMTPAuthenticationError:
+                logging.error(f"Could not login to server {self.server}")
+                raise EmailSendException("Could not login to SMTP server")
 
-        except Exception as e:
-            raise EmailSendException(f"Error sending email: {e}")
+            logging.debug(f"Logged in to server {self.server}")
+
+            try:
+                server.send_message(msg)
+            except smtplib.SMTPRecipientsRefused:
+                logging.error(f"Could not send email to {to}. Invalid recipient")
+                raise EmailSendException("Invalid recipient")
+            except smtplib.SMTPException:
+                logging.error(f"Could not send email to {to}. Error sending email")
+                raise EmailSendException("Could not send email")
+
+            logging.debug(f"Sent email to {to}")
