@@ -23,3 +23,8 @@ Alternatively, you can run it via plain docker
 docker build -t testmail .
 docker run -p 8090:80 testmail
 ```
+
+Running tests:
+```bash
+pdm run test
+```
