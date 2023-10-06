@@ -14,6 +14,7 @@ Then the app will be available at http://localhost:8090
 Or you can run it locally via pdm (pdm needs to be installed beforehand):
 
 ```bash
+pdm install
 pdm run serve
 ```
 
