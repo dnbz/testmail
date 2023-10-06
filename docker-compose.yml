@@ -1,0 +1,7 @@
+version: '3'
+services:
+    testmail:
+        build: .
+        env_file: .env
+        ports:
+          - 8090:80

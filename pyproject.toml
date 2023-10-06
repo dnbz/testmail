@@ -1,0 +1,27 @@
+[tool.pdm]
+[tool.pdm.scripts]
+_.env_file = ".env"
+serve-prod = 'uvicorn app.main:app --proxy-headers --host 0.0.0.0 --port 80'
+serve = 'uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload'
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=7.4.2",
+]
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Leo", email = "none"},
+]
+dependencies = [
+    "fastapi>=0.103.2",
+    "uvicorn[standard]>=0.23.2",
+    "pydantic[email]>=2.4.2",
+    "setuptools>=68.2.2",
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "Proprietary"}
+
